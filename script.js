@@ -96,7 +96,35 @@ let syncRecheioLimit = () => {};
 let acaiModalState = null;
 
 function buildWaUrl(message) {
-  return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
+  const params = new URLSearchParams({
+    phone: WA_PHONE,
+    text: message,
+  });
+  return `https://api.whatsapp.com/send?${params.toString()}`;
+}
+
+function isMobileDevice() {
+  return /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent || "");
+}
+
+function openWhatsAppUrl(url) {
+  if (!url) return false;
+
+  if (isMobileDevice()) {
+    window.location.href = url;
+    return true;
+  }
+
+  const popup = window.open(url, "_blank", "noopener,noreferrer");
+  if (popup) return true;
+
+  // Fallback when popup is blocked in desktop browsers.
+  window.location.href = url;
+  return true;
+}
+
+function openWhatsAppMessage(message) {
+  return openWhatsAppUrl(buildWaUrl(message));
 }
 
 function getMinutesOfDay(date = new Date()) {
@@ -1089,7 +1117,7 @@ function setupProductButtons() {
       }
 
       const message = `Ola! Quero pedir ${product}${price ? ` (${price})` : ""}. Pode me confirmar disponibilidade?`;
-      window.open(buildWaUrl(message), "_blank", "noopener,noreferrer");
+      openWhatsAppMessage(message);
     });
   });
 }
@@ -1202,8 +1230,8 @@ function setupOrderForm() {
       .filter(Boolean)
       .join("\n");
 
-    const popup = window.open(buildWaUrl(message), "_blank", "noopener,noreferrer");
-    if (!popup) {
+    const opened = openWhatsAppMessage(message);
+    if (!opened) {
       setFormFeedback("Nao foi possivel abrir o WhatsApp automaticamente.", "error");
       return;
     }
