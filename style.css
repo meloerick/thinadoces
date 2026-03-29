@@ -1378,10 +1378,6 @@ body.modal-open {
   display: none;
 }
 
-.mobile-finalize {
-  display: none;
-}
-
 .reveal {
   opacity: 0;
   transform: translateY(22px) scale(0.99);
@@ -1566,6 +1562,15 @@ body.modal-open {
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
     overscroll-behavior: contain;
+    pointer-events: none;
+  }
+
+  .floating-cart .cart-empty,
+  .floating-cart .cart-total-row,
+  .floating-cart .cart-list,
+  .floating-cart .cart-list *,
+  .floating-cart #goToCheckoutBtn {
+    pointer-events: auto;
   }
 
   .floating-cart h3 {
@@ -1615,22 +1620,7 @@ body.modal-open {
   }
 
   .site-footer {
-    padding-bottom: 12.2rem;
-  }
-
-  .mobile-finalize {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 4.95rem;
-    z-index: 1948;
-    display: block;
-    padding: 0.5rem 0.7rem 0.25rem;
-    pointer-events: none;
-  }
-
-  .mobile-finalize .btn {
-    pointer-events: auto;
+    padding-bottom: 8.7rem;
   }
 
   .mobile-cta {
