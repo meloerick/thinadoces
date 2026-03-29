@@ -96,11 +96,8 @@ let syncRecheioLimit = () => {};
 let acaiModalState = null;
 
 function buildWaUrl(message) {
-  const params = new URLSearchParams({
-    phone: WA_PHONE,
-    text: message,
-  });
-  return `https://api.whatsapp.com/send?${params.toString()}`;
+  const safeMessage = encodeURIComponent(String(message || ""));
+  return `https://api.whatsapp.com/send?phone=${WA_PHONE}&text=${safeMessage}`;
 }
 
 function isMobileDevice() {
@@ -132,8 +129,22 @@ function getMinutesOfDay(date = new Date()) {
 }
 
 function isOrderingOpen(date = new Date()) {
-  const minutesNow = getMinutesOfDay(date);
-  return minutesNow >= ORDER_OPEN_MINUTES && minutesNow < ORDER_CLOSE_MINUTES;
+  try {
+    const formatter = new Intl.DateTimeFormat("pt-BR", {
+      timeZone: "America/Sao_Paulo",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    const [hourText = "0", minuteText = "0"] = formatter.format(date).split(":");
+    const hour = Number(hourText);
+    const minute = Number(minuteText);
+    const minutesNow = hour * 60 + minute;
+    return minutesNow >= ORDER_OPEN_MINUTES && minutesNow < ORDER_CLOSE_MINUTES;
+  } catch {
+    const minutesNow = getMinutesOfDay(date);
+    return minutesNow >= ORDER_OPEN_MINUTES && minutesNow < ORDER_CLOSE_MINUTES;
+  }
 }
 
 function getClosedOrderMessage() {
