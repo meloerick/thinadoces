@@ -1030,26 +1030,16 @@ function addCurrentSelectionToCart() {
 
 function setupCart() {
   if (!cartList) return;
+  let lastCartTouchAt = 0;
+  let lastFinalizeTouchAt = 0;
 
-  if (addToCartButton) {
-    addToCartButton.addEventListener("click", addCurrentSelectionToCart);
-  }
-
-  cartList.addEventListener("click", (event) => {
-    const rawTarget = event.target;
-    const target =
-      rawTarget instanceof Element
-        ? rawTarget
-        : rawTarget instanceof Node
-          ? rawTarget.parentElement
-          : null;
-    if (!target) return;
+  const handleCartAction = (target) => {
     const actionButton = target.closest("button[data-action]");
-    if (!(actionButton instanceof HTMLButtonElement)) return;
+    if (!(actionButton instanceof HTMLButtonElement)) return false;
 
     const action = actionButton.dataset.action;
     const index = Number(actionButton.dataset.index);
-    if (!Number.isInteger(index) || index < 0 || index >= cartItems.length) return;
+    if (!Number.isInteger(index) || index < 0 || index >= cartItems.length) return true;
 
     if (action === "increase") {
       cartItems[index].quantity += 1;
@@ -1065,32 +1055,84 @@ function setupCart() {
     }
 
     renderCart();
-  });
+    return true;
+  };
+
+  const onCartInteraction = (event) => {
+    const rawTarget = event.target;
+    const target =
+      rawTarget instanceof Element
+        ? rawTarget
+        : rawTarget instanceof Node
+          ? rawTarget.parentElement
+          : null;
+    if (!target) return;
+
+    if (event.type === "click" && Date.now() - lastCartTouchAt < 500) {
+      return;
+    }
+
+    if (!handleCartAction(target)) return;
+
+    if (event.type === "touchend") {
+      lastCartTouchAt = Date.now();
+      event.preventDefault();
+    }
+  };
+
+  const finalizeFromCart = () => {
+    if (!cartItems.length) {
+      setFormFeedback("Adicione itens no carrinho para continuar.", "error");
+      const servicesSection = document.getElementById("servicos");
+      servicesSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+      return;
+    }
+
+    if (!orderForm) return;
+    orderForm.scrollIntoView({ behavior: "smooth", block: "start" });
+    const firstField = orderForm.querySelector("input, select, textarea");
+    if (firstField instanceof HTMLElement) {
+      window.setTimeout(() => firstField.focus(), 250);
+    }
+  };
+
+  if (addToCartButton) {
+    addToCartButton.addEventListener("click", addCurrentSelectionToCart);
+  }
+
+  cartList.addEventListener("click", onCartInteraction);
+  cartList.addEventListener("touchend", onCartInteraction, { passive: false });
 
   if (goToCheckoutButton instanceof HTMLButtonElement) {
     goToCheckoutButton.addEventListener("click", () => {
-      if (!cartItems.length) {
-        setFormFeedback("Adicione itens no carrinho para continuar.", "error");
-        const servicesSection = document.getElementById("servicos");
-        servicesSection?.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-
-      if (!orderForm) return;
-      orderForm.scrollIntoView({ behavior: "smooth", block: "start" });
-      const firstField = orderForm.querySelector("input, select, textarea");
-      if (firstField instanceof HTMLElement) {
-        window.setTimeout(() => firstField.focus(), 250);
-      }
+      if (Date.now() - lastFinalizeTouchAt < 500) return;
+      finalizeFromCart();
     });
+    goToCheckoutButton.addEventListener(
+      "touchend",
+      (event) => {
+        lastFinalizeTouchAt = Date.now();
+        event.preventDefault();
+        finalizeFromCart();
+      },
+      { passive: false }
+    );
   }
 
   if (mobileFinalizeButton instanceof HTMLButtonElement) {
     mobileFinalizeButton.addEventListener("click", () => {
-      if (goToCheckoutButton instanceof HTMLButtonElement) {
-        goToCheckoutButton.click();
-      }
+      if (Date.now() - lastFinalizeTouchAt < 500) return;
+      finalizeFromCart();
     });
+    mobileFinalizeButton.addEventListener(
+      "touchend",
+      (event) => {
+        lastFinalizeTouchAt = Date.now();
+        event.preventDefault();
+        finalizeFromCart();
+      },
+      { passive: false }
+    );
   }
 
   renderCart();

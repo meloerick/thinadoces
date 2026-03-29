@@ -1168,13 +1168,15 @@ body.modal-open {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0.16rem 0.28rem;
+  position: relative;
+  z-index: 2;
 }
 
 .cart-control {
-  width: 26px;
-  height: 26px;
-  min-width: 26px;
-  min-height: 26px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
   border: 0;
   border-radius: 50%;
   background: #ffe3ef;
@@ -1182,6 +1184,9 @@ body.modal-open {
   font-weight: 800;
   cursor: pointer;
   touch-action: manipulation;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .cart-item-value {
@@ -1200,6 +1205,9 @@ body.modal-open {
   cursor: pointer;
   touch-action: manipulation;
   min-height: 32px;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .cart-total-row {
@@ -1230,8 +1238,10 @@ body.modal-open {
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   overscroll-behavior: contain;
-  z-index: 1800;
+  z-index: 2190;
   box-shadow: 0 20px 46px rgba(44, 17, 30, 0.24);
+  pointer-events: auto;
+  isolation: isolate;
 }
 
 .floating-cart .cart-list {
@@ -1241,6 +1251,7 @@ body.modal-open {
   touch-action: pan-y;
   overscroll-behavior: contain;
   padding-right: 0.18rem;
+  pointer-events: auto;
 }
 
 .order-form input:focus,
@@ -1406,7 +1417,7 @@ body.modal-open {
     width: min(240px, calc(100vw - 1.1rem));
     max-height: 40vh;
     overflow: auto;
-    z-index: 1700;
+    z-index: 2190;
     box-shadow: 0 18px 34px rgba(44, 17, 30, 0.28);
   }
 
@@ -1503,11 +1514,12 @@ body.modal-open {
   }
 
   .catalog-item .order-btn {
-    grid-column: 2;
-    justify-self: end;
-    width: min(168px, 100%);
+    grid-column: 1 / -1;
+    justify-self: start;
+    width: min(182px, 82vw);
     min-height: 42px;
-    margin: 0;
+    margin: 0.08rem 0 0.04rem 0;
+    transform: translateX(-8px);
   }
 
   .acai-modal {
@@ -1547,8 +1559,8 @@ body.modal-open {
   .floating-cart {
     right: 0.4rem;
     top: 86px;
-    width: min(200px, 48vw);
-    max-height: 34vh;
+    width: min(172px, 42vw);
+    max-height: 30vh;
     padding: 0.58rem;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -1565,7 +1577,7 @@ body.modal-open {
   }
 
   .floating-cart .cart-list {
-    max-height: 14vh;
+    max-height: 11.5vh;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
@@ -1584,6 +1596,9 @@ body.modal-open {
   .floating-cart .btn {
     padding: 0.46rem 0.72rem;
     font-size: 0.76rem;
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
   }
 
   .recheio-grid {
