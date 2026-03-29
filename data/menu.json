@@ -1,0 +1,49 @@
+{
+  "store": {
+    "name": "Açaí do Parque",
+    "city": "Canoas - RS",
+    "rating": 4.8,
+    "reviews": 24,
+    "whatsapp": "5551985014767"
+  },
+  "sizes": [
+    {
+      "id": "300",
+      "label": "Açaí 300ml",
+      "ml": 300,
+      "price": 14.9,
+      "description": "Ideal para um lanche rápido e gelado."
+    },
+    {
+      "id": "500",
+      "label": "Açaí 500ml",
+      "ml": 500,
+      "price": 19.9,
+      "description": "Tamanho mais pedido para matar a fome."
+    },
+    {
+      "id": "700",
+      "label": "Açaí 700ml",
+      "ml": 700,
+      "price": 24.9,
+      "description": "Perfeito para dividir ou para quem ama açaí."
+    }
+  ],
+  "toppings": [
+    { "id": "granola", "name": "Granola crocante", "price": 2.5, "category": "Crocantes" },
+    { "id": "leite-condensado", "name": "Leite condensado", "price": 2.0, "category": "Cremes" },
+    { "id": "leite-po", "name": "Leite em pó", "price": 2.0, "category": "Cremes" },
+    { "id": "pacoca", "name": "Paçoca", "price": 2.5, "category": "Crocantes" },
+    { "id": "ovomaltine", "name": "Ovomaltine", "price": 3.5, "category": "Crocantes" },
+    { "id": "morango", "name": "Morango", "price": 3.0, "category": "Frutas" },
+    { "id": "banana", "name": "Banana", "price": 2.5, "category": "Frutas" },
+    { "id": "uva", "name": "Uva", "price": 3.0, "category": "Frutas" },
+    { "id": "kiwi", "name": "Kiwi", "price": 3.5, "category": "Frutas" },
+    { "id": "manga", "name": "Manga", "price": 3.0, "category": "Frutas" },
+    { "id": "amendoim", "name": "Amendoim torrado", "price": 2.0, "category": "Crocantes" },
+    { "id": "castanha", "name": "Castanha de caju", "price": 4.0, "category": "Premium" },
+    { "id": "nutella", "name": "Nutella", "price": 5.0, "category": "Premium" },
+    { "id": "doce-leite", "name": "Doce de leite", "price": 3.0, "category": "Cremes" },
+    { "id": "mel", "name": "Mel", "price": 2.5, "category": "Cremes" }
+  ]
+}
