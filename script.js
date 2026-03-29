@@ -2,6 +2,9 @@ const WA_PHONE = "5551993446956";
 const DEFAULT_WA_MESSAGE = "Ola! Quero fazer um pedido na Thina Doces.";
 const MOBILE_BREAKPOINT = 860;
 const MAX_RECHEIOS = 2;
+const ORDER_OPEN_MINUTES = 12 * 60;
+const ORDER_CLOSE_MINUTES = 24 * 60;
+const ORDER_HOURS_LABEL = "12:00 as 00:00";
 const ACAI_GROUPS_TEMPLATE = [
   {
     key: "complementos",
@@ -94,6 +97,35 @@ let acaiModalState = null;
 
 function buildWaUrl(message) {
   return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(message)}`;
+}
+
+function getMinutesOfDay(date = new Date()) {
+  return date.getHours() * 60 + date.getMinutes();
+}
+
+function isOrderingOpen(date = new Date()) {
+  const minutesNow = getMinutesOfDay(date);
+  return minutesNow >= ORDER_OPEN_MINUTES && minutesNow < ORDER_CLOSE_MINUTES;
+}
+
+function getClosedOrderMessage() {
+  return `Estamos fechados agora. Pedidos somente das ${ORDER_HOURS_LABEL}.`;
+}
+
+function notifyOrderingClosed() {
+  const message = getClosedOrderMessage();
+  setFormFeedback(message, "error");
+  setAcaiModalFeedback(message, "error");
+
+  if (!formFeedback && !acaiModalFeedback) {
+    window.alert(message);
+  }
+}
+
+function ensureOrderingOpen() {
+  if (isOrderingOpen()) return true;
+  notifyOrderingClosed();
+  return false;
 }
 
 function formatDatePtBr(isoDate) {
@@ -302,6 +334,8 @@ function changeAcaiItemQuantity(groupKey, itemName, delta) {
 }
 
 function openAcaiModalFromButton(button, productName, priceText) {
+  if (!ensureOrderingOpen()) return;
+
   if (!acaiModal) {
     addCatalogItemToCart(productName, priceText);
     return;
@@ -390,6 +424,7 @@ function setupAcaiModal() {
   }
 
   acaiModalConfirm.addEventListener("click", () => {
+    if (!ensureOrderingOpen()) return;
     if (!acaiModalState) return;
 
     const complementosGroup = getAcaiGroupByKey(acaiModalState, "complementos");
@@ -429,6 +464,71 @@ function syncDefaultWaLinks() {
   document.querySelectorAll("[data-wa-default]").forEach((link) => {
     link.href = buildWaUrl(DEFAULT_WA_MESSAGE);
   });
+}
+
+function syncOrderingAvailability() {
+  const open = isOrderingOpen();
+  const closedMessage = getClosedOrderMessage();
+
+  orderButtons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    button.disabled = !open;
+    button.setAttribute("aria-disabled", String(!open));
+    if (!open) {
+      button.title = closedMessage;
+    } else {
+      button.removeAttribute("title");
+    }
+  });
+
+  if (addToCartButton instanceof HTMLButtonElement) {
+    addToCartButton.disabled = !open;
+    addToCartButton.setAttribute("aria-disabled", String(!open));
+    if (!open) {
+      addToCartButton.title = closedMessage;
+    } else {
+      addToCartButton.removeAttribute("title");
+    }
+  }
+
+  if (acaiModalConfirm instanceof HTMLButtonElement) {
+    acaiModalConfirm.disabled = !open;
+    acaiModalConfirm.setAttribute("aria-disabled", String(!open));
+    if (!open) {
+      acaiModalConfirm.title = closedMessage;
+    } else {
+      acaiModalConfirm.removeAttribute("title");
+    }
+  }
+
+  document.querySelectorAll("[data-wa-default]").forEach((link) => {
+    if (!open) {
+      link.setAttribute("aria-disabled", "true");
+      link.title = closedMessage;
+    } else {
+      link.setAttribute("aria-disabled", "false");
+      link.removeAttribute("title");
+    }
+  });
+
+  if (cartList) {
+    renderCart();
+  }
+}
+
+function setupOrderingAvailability() {
+  const waLinks = Array.from(document.querySelectorAll("[data-wa-default]"));
+
+  waLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      if (isOrderingOpen()) return;
+      event.preventDefault();
+      notifyOrderingClosed();
+    });
+  });
+
+  syncOrderingAvailability();
+  window.setInterval(syncOrderingAvailability, 30000);
 }
 
 function setupMenu() {
@@ -714,11 +814,12 @@ function renderCart() {
 
   cartList.innerHTML = "";
   const hasItems = cartItems.length > 0;
+  const orderingOpen = isOrderingOpen();
 
   cartEmpty.hidden = hasItems;
-  if (checkoutButton) checkoutButton.disabled = !hasItems;
+  if (checkoutButton) checkoutButton.disabled = !hasItems || !orderingOpen;
   if (goToCheckoutButton instanceof HTMLButtonElement) {
-    goToCheckoutButton.disabled = !hasItems;
+    goToCheckoutButton.disabled = !hasItems || !orderingOpen;
   }
 
   if (!hasItems) {
@@ -766,6 +867,8 @@ function renderCart() {
 }
 
 function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPrice }) {
+  if (!ensureOrderingOpen()) return;
+
   if (!productName || Number(unitPrice || 0) <= 0) {
     setFormFeedback("Nao foi possivel adicionar este acai ao carrinho.", "error");
     return;
@@ -806,6 +909,8 @@ function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPri
 }
 
 function addCatalogItemToCart(productName, priceText) {
+  if (!ensureOrderingOpen()) return;
+
   const unitPrice = parsePricePtBr(priceText);
   if (!productName || unitPrice <= 0) {
     setFormFeedback("Nao foi possivel adicionar este item ao carrinho.", "error");
@@ -837,6 +942,8 @@ function addCatalogItemToCart(productName, priceText) {
 }
 
 function addCurrentSelectionToCart() {
+  if (!ensureOrderingOpen()) return;
+
   const selected = getSelectedCakeProduct();
   if (!selected) {
     setFormFeedback("Selecione um produto de bolo antes de adicionar ao carrinho.", "error");
@@ -913,6 +1020,8 @@ function setupCart() {
 
   if (goToCheckoutButton instanceof HTMLButtonElement) {
     goToCheckoutButton.addEventListener("click", () => {
+      if (!ensureOrderingOpen()) return;
+
       if (!cartItems.length) {
         setFormFeedback("Adicione itens no carrinho para continuar.", "error");
         const servicesSection = document.getElementById("servicos");
@@ -937,6 +1046,8 @@ function setupProductButtons() {
 
   orderButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      if (!ensureOrderingOpen()) return;
+
       const product = button.dataset.product || "produto";
       const price = button.dataset.price || "";
       const isAcaiButton = button.dataset.acai === "true";
@@ -1028,6 +1139,8 @@ function setupOrderForm() {
   orderForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    if (!ensureOrderingOpen()) return;
+
     if (!validateOrderForm()) {
       setFormFeedback("Revise os campos destacados para continuar.", "error");
       orderForm.reportValidity();
@@ -1106,6 +1219,7 @@ function setupOrderForm() {
 }
 
 syncDefaultWaLinks();
+setupOrderingAvailability();
 setupMenu();
 setupScrollUi();
 setupActiveSectionTracking();
