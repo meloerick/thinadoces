@@ -80,6 +80,7 @@ const cartEmpty = document.getElementById("cartEmpty");
 const cartTotal = document.getElementById("cartTotal");
 const checkoutButton = document.getElementById("checkoutBtn");
 const goToCheckoutButton = document.getElementById("goToCheckoutBtn");
+const mobileFinalizeButton = document.getElementById("mobileFinalizeBtn");
 const acaiModal = document.getElementById("acaiModal");
 const acaiModalImage = document.getElementById("acaiModalImage");
 const acaiModalTitle = document.getElementById("acaiModalTitle");
@@ -428,8 +429,14 @@ function setupAcaiModal() {
   if (!acaiModal || !acaiModalContent || !acaiModalConfirm) return;
 
   acaiModal.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
+    const rawTarget = event.target;
+    const target =
+      rawTarget instanceof Element
+        ? rawTarget
+        : rawTarget instanceof Node
+          ? rawTarget.parentElement
+          : null;
+    if (!target) return;
 
     const closeButton = target.closest("[data-acai-close]");
     if (closeButton) {
@@ -852,6 +859,9 @@ function renderCart() {
   if (goToCheckoutButton instanceof HTMLButtonElement) {
     goToCheckoutButton.disabled = !hasItems;
   }
+  if (mobileFinalizeButton instanceof HTMLButtonElement) {
+    mobileFinalizeButton.disabled = !hasItems;
+  }
 
   if (!hasItems) {
     cartTotal.textContent = formatCurrencyPtBr(0);
@@ -1023,8 +1033,14 @@ function setupCart() {
   }
 
   cartList.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
+    const rawTarget = event.target;
+    const target =
+      rawTarget instanceof Element
+        ? rawTarget
+        : rawTarget instanceof Node
+          ? rawTarget.parentElement
+          : null;
+    if (!target) return;
     const actionButton = target.closest("button[data-action]");
     if (!(actionButton instanceof HTMLButtonElement)) return;
 
@@ -1057,6 +1073,14 @@ function setupCart() {
       const firstField = orderForm.querySelector("input, select, textarea");
       if (firstField instanceof HTMLElement) {
         window.setTimeout(() => firstField.focus(), 250);
+      }
+    });
+  }
+
+  if (mobileFinalizeButton instanceof HTMLButtonElement) {
+    mobileFinalizeButton.addEventListener("click", () => {
+      if (goToCheckoutButton instanceof HTMLButtonElement) {
+        goToCheckoutButton.click();
       }
     });
   }

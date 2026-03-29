@@ -509,11 +509,18 @@ h3 {
   text-decoration: line-through;
 }
 
-.catalog-item .btn {
+.catalog-item .order-btn {
   align-self: end;
   margin: 0 0.18rem 0.2rem 0;
-  padding: 0.5rem 0.95rem;
-  font-size: 0.82rem;
+  width: 168px;
+  min-height: 44px;
+  padding: 0.36rem 0.56rem;
+  font-size: 0.74rem;
+  line-height: 1.12;
+  text-align: center;
+  white-space: normal;
+  position: relative;
+  z-index: 2;
 }
 
 body.modal-open {
@@ -1129,6 +1136,7 @@ body.modal-open {
   color: var(--accent);
   font-weight: 800;
   cursor: pointer;
+  touch-action: manipulation;
 }
 
 .cart-item-value {
@@ -1143,6 +1151,8 @@ body.modal-open {
   font-weight: 700;
   width: fit-content;
   cursor: pointer;
+  touch-action: manipulation;
+  min-height: 32px;
 }
 
 .cart-total-row {
@@ -1304,6 +1314,10 @@ body.modal-open {
   display: none;
 }
 
+.mobile-finalize {
+  display: none;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(22px) scale(0.99);
@@ -1333,16 +1347,19 @@ body.modal-open {
   }
 
   .floating-cart {
-    position: static;
-    width: 100%;
-    max-height: none;
-    overflow: visible;
-    margin-top: 0.85rem;
-    box-shadow: var(--shadow-soft);
+    position: fixed;
+    right: 0.55rem;
+    top: 94px;
+    width: min(240px, calc(100vw - 1.1rem));
+    max-height: 40vh;
+    overflow: auto;
+    z-index: 1700;
+    box-shadow: 0 18px 34px rgba(44, 17, 30, 0.28);
   }
 
   .floating-cart .cart-list {
-    max-height: none;
+    max-height: 18vh;
+    overflow: auto;
   }
 }
 
@@ -1432,10 +1449,11 @@ body.modal-open {
     font-size: 1.2rem;
   }
 
-  .catalog-item .btn {
+  .catalog-item .order-btn {
     grid-column: 2;
     justify-self: end;
-    width: auto;
+    width: min(168px, 100%);
+    min-height: 42px;
     margin: 0;
   }
 
@@ -1474,7 +1492,42 @@ body.modal-open {
   }
 
   .floating-cart {
-    margin-top: 0.7rem;
+    right: 0.4rem;
+    top: 86px;
+    width: min(200px, 48vw);
+    max-height: 34vh;
+    padding: 0.58rem;
+    pointer-events: none;
+  }
+
+  .floating-cart > * {
+    pointer-events: auto;
+  }
+
+  .floating-cart h3 {
+    font-size: 1.02rem;
+  }
+
+  .floating-cart .cart-empty {
+    font-size: 0.76rem;
+  }
+
+  .floating-cart .cart-list {
+    max-height: 14vh;
+  }
+
+  .floating-cart .cart-item {
+    padding: 0.46rem;
+    gap: 0.3rem;
+  }
+
+  .floating-cart .cart-item-main p {
+    display: none;
+  }
+
+  .floating-cart .btn {
+    padding: 0.46rem 0.72rem;
+    font-size: 0.76rem;
   }
 
   .recheio-grid {
@@ -1491,7 +1544,22 @@ body.modal-open {
   }
 
   .site-footer {
-    padding-bottom: 8.2rem;
+    padding-bottom: 12.2rem;
+  }
+
+  .mobile-finalize {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 4.95rem;
+    z-index: 1948;
+    display: block;
+    padding: 0.5rem 0.7rem 0.25rem;
+    pointer-events: none;
+  }
+
+  .mobile-finalize .btn {
+    pointer-events: auto;
   }
 
   .mobile-cta {
@@ -1505,6 +1573,11 @@ body.modal-open {
     backdrop-filter: blur(8px);
     background: rgba(255, 248, 246, 0.94);
     border-top: 1px solid var(--line);
+    pointer-events: none;
+  }
+
+  .mobile-cta .btn {
+    pointer-events: auto;
   }
 
   .whatsapp-float {
