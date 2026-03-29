@@ -200,25 +200,6 @@ h3 {
   color: var(--accent);
 }
 
-.nav-cake-cta {
-  margin-left: 0.4rem;
-  display: grid;
-  gap: 0.24rem;
-  justify-items: end;
-}
-
-.nav-cake-cta__text {
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-
-.nav-cta {
-  margin-left: 0;
-}
-
 .menu-toggle {
   display: none;
   width: 42px;
@@ -1463,10 +1444,6 @@ body.modal-open {
     visibility: visible;
     transform: translateY(0);
     pointer-events: auto;
-  }
-
-  .nav-cake-cta {
-    display: none;
   }
 
   .hero-metrics,
