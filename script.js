@@ -1,5 +1,7 @@
 const WA_PHONE = "5551993446956";
 const DEFAULT_WA_MESSAGE = "Ola! Quero fazer um pedido na Thina Doces.";
+const THINA_PIX = "51993446956";
+const PIX_CHECKOUT_LINE = `Finalize o pagamento para este Pix: ${THINA_PIX}.`;
 const MOBILE_BREAKPOINT = 860;
 const MAX_RECHEIOS = 2;
 const ORDER_OPEN_MINUTES = 12 * 60;
@@ -1350,6 +1352,7 @@ function setupOrderForm() {
       productSelect ? "Quero fazer uma encomenda de bolo:" : "Quero fazer um pedido:",
       ...itensResumo.map((line) => `- ${line}`),
       `Total do pedido: ${total}.`,
+      PIX_CHECKOUT_LINE,
       `Endereco: ${endereco}.`,
       dateTimeLine,
       `Telefone: ${telefone}.`,
