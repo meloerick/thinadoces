@@ -145,7 +145,7 @@ function notifyOrderingClosed() {
   setFormFeedback(message, "error");
   setAcaiModalFeedback(message, "error");
 
-  if (!formFeedback && !acaiModalFeedback) {
+  if (isMobileDevice() || (!formFeedback && !acaiModalFeedback)) {
     window.alert(message);
   }
 }
@@ -500,7 +500,6 @@ function syncOrderingAvailability() {
 
   orderButtons.forEach((button) => {
     if (!(button instanceof HTMLButtonElement)) return;
-    button.disabled = !open;
     button.setAttribute("aria-disabled", String(!open));
     if (!open) {
       button.title = closedMessage;
@@ -510,7 +509,6 @@ function syncOrderingAvailability() {
   });
 
   if (addToCartButton instanceof HTMLButtonElement) {
-    addToCartButton.disabled = !open;
     addToCartButton.setAttribute("aria-disabled", String(!open));
     if (!open) {
       addToCartButton.title = closedMessage;
@@ -520,7 +518,6 @@ function syncOrderingAvailability() {
   }
 
   if (acaiModalConfirm instanceof HTMLButtonElement) {
-    acaiModalConfirm.disabled = !open;
     acaiModalConfirm.setAttribute("aria-disabled", String(!open));
     if (!open) {
       acaiModalConfirm.title = closedMessage;
@@ -842,12 +839,10 @@ function renderCart() {
 
   cartList.innerHTML = "";
   const hasItems = cartItems.length > 0;
-  const orderingOpen = isOrderingOpen();
-
   cartEmpty.hidden = hasItems;
-  if (checkoutButton) checkoutButton.disabled = !hasItems || !orderingOpen;
+  if (checkoutButton) checkoutButton.disabled = !hasItems;
   if (goToCheckoutButton instanceof HTMLButtonElement) {
-    goToCheckoutButton.disabled = !hasItems || !orderingOpen;
+    goToCheckoutButton.disabled = !hasItems;
   }
 
   if (!hasItems) {
