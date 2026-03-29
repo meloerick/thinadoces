@@ -60,6 +60,7 @@
               <li>Bolos de 1kg ate 7kg</li>
               <li>Ate 2 recheios por pedido</li>
               <li>Carrinho com quantidade e total</li>
+              <li>Atendimento: 12:00 ate 00:00 (antes das 12:00 fechado)</li>
             </ul>
 
             <article class="cake-menu-board" aria-label="Cardapio de bolos">
@@ -164,7 +165,8 @@
             <input id="data" name="data" type="date" required />
 
             <label for="horario">Horario</label>
-            <input id="horario" name="horario" type="time" min="09:00" max="22:00" step="1800" required />
+            <input id="horario" name="horario" type="time" min="12:00" max="23:59" step="60" required />
+            <p class="form-tip">Antes das 12:00 fechado. Abre 12:00 e fecha 00:00.</p>
 
             <label for="obs">Observacoes</label>
             <textarea id="obs" name="obs" rows="3" placeholder="Ex: tema do bolo, cores, preferencia de cobertura, etc."></textarea>
