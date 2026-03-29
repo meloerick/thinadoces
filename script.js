@@ -373,8 +373,6 @@ function changeAcaiItemQuantity(groupKey, itemName, delta) {
 }
 
 function openAcaiModalFromButton(button, productName, priceText) {
-  if (!ensureOrderingOpen()) return;
-
   if (!acaiModal) {
     addCatalogItemToCart(productName, priceText);
     return;
@@ -463,7 +461,6 @@ function setupAcaiModal() {
   }
 
   acaiModalConfirm.addEventListener("click", () => {
-    if (!ensureOrderingOpen()) return;
     if (!acaiModalState) return;
 
     const complementosGroup = getAcaiGroupByKey(acaiModalState, "complementos");
@@ -901,8 +898,6 @@ function renderCart() {
 }
 
 function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPrice }) {
-  if (!ensureOrderingOpen()) return;
-
   if (!productName || Number(unitPrice || 0) <= 0) {
     setFormFeedback("Nao foi possivel adicionar este acai ao carrinho.", "error");
     return;
@@ -943,8 +938,6 @@ function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPri
 }
 
 function addCatalogItemToCart(productName, priceText) {
-  if (!ensureOrderingOpen()) return;
-
   const unitPrice = parsePricePtBr(priceText);
   if (!productName || unitPrice <= 0) {
     setFormFeedback("Nao foi possivel adicionar este item ao carrinho.", "error");
@@ -976,8 +969,6 @@ function addCatalogItemToCart(productName, priceText) {
 }
 
 function addCurrentSelectionToCart() {
-  if (!ensureOrderingOpen()) return;
-
   const selected = getSelectedCakeProduct();
   if (!selected) {
     setFormFeedback("Selecione um produto de bolo antes de adicionar ao carrinho.", "error");
@@ -1054,8 +1045,6 @@ function setupCart() {
 
   if (goToCheckoutButton instanceof HTMLButtonElement) {
     goToCheckoutButton.addEventListener("click", () => {
-      if (!ensureOrderingOpen()) return;
-
       if (!cartItems.length) {
         setFormFeedback("Adicione itens no carrinho para continuar.", "error");
         const servicesSection = document.getElementById("servicos");
@@ -1080,8 +1069,6 @@ function setupProductButtons() {
 
   orderButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      if (!ensureOrderingOpen()) return;
-
       const product = button.dataset.product || "produto";
       const price = button.dataset.price || "";
       const isAcaiButton = button.dataset.acai === "true";
