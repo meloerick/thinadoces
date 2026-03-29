@@ -77,12 +77,12 @@
             <li><a href="#galeria">Galeria</a></li>
             <li><a href="#avaliacoes">Depoimentos</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="#agendar">Pedido</a></li>
+            <li><a href="./pedido-bolo/">Pedido de Bolo</a></li>
             <li><a href="#localizacao">Localizacao</a></li>
           </ul>
         </nav>
 
-        <a class="btn btn-primary nav-cta" data-wa-default href="https://wa.me/5551993446956" target="_blank" rel="noreferrer">Agendar pelo WhatsApp</a>
+        <a class="btn btn-primary nav-cta" href="./pedido-bolo/">Pedido de Bolo</a>
       </div>
     </header>
 
@@ -135,7 +135,7 @@
             <div class="hero-panel-card">
               <h2>Pedido rapido</h2>
               <p>Monte seu pedido no WhatsApp em menos de 1 minuto.</p>
-              <a class="btn btn-secondary full" href="#agendar">Montar pedido agora</a>
+              <a class="btn btn-secondary full" href="./pedido-bolo/">Pedido de Bolo</a>
             </div>
           </aside>
         </div>
@@ -163,7 +163,16 @@
                     <p class="catalog-item-description">3 complementos</p>
                     <p class="catalog-item-price">R$ 16,00</p>
                   </div>
-                  <button class="btn btn-secondary order-btn" type="button" data-product="Acai 300ml" data-price="R$ 16,00">Pedir</button>
+                  <button
+                    class="btn btn-secondary order-btn"
+                    type="button"
+                    data-product="Acai 300ml"
+                    data-price="R$ 16,00"
+                    data-acai="true"
+                    data-acai-included="3"
+                  >
+                    Pedir
+                  </button>
                 </article>
 
                 <article class="catalog-item">
@@ -173,7 +182,16 @@
                     <p class="catalog-item-description">4 complementos</p>
                     <p class="catalog-item-price">R$ 20,00</p>
                   </div>
-                  <button class="btn btn-secondary order-btn" type="button" data-product="Acai 500ml" data-price="R$ 20,00">Pedir</button>
+                  <button
+                    class="btn btn-secondary order-btn"
+                    type="button"
+                    data-product="Acai 500ml"
+                    data-price="R$ 20,00"
+                    data-acai="true"
+                    data-acai-included="4"
+                  >
+                    Pedir
+                  </button>
                 </article>
 
                 <article class="catalog-item">
@@ -183,7 +201,16 @@
                     <p class="catalog-item-description">5 complementos</p>
                     <p class="catalog-item-price">R$ 26,00</p>
                   </div>
-                  <button class="btn btn-secondary order-btn" type="button" data-product="Acai 700ml" data-price="R$ 26,00">Pedir</button>
+                  <button
+                    class="btn btn-secondary order-btn"
+                    type="button"
+                    data-product="Acai 700ml"
+                    data-price="R$ 26,00"
+                    data-acai="true"
+                    data-acai-included="5"
+                  >
+                    Pedir
+                  </button>
                 </article>
               </div>
             </section>
@@ -205,20 +232,21 @@
               </div>
             </section>
 
-            <section class="catalog-category reveal" aria-label="Categoria Salgados">
+            <section class="catalog-category reveal" aria-label="Pedido de bolo">
               <header class="catalog-category-title">
-                <h3>SALGADOS</h3>
+                <h3>PEDIDO DE BOLO</h3>
               </header>
-              <img class="catalog-cover" src="./images/produtos/categorias/salgados.jpg" alt="Salgados" loading="lazy" width="1200" height="600" />
+              <img class="catalog-cover" src="./images/produtos/categorias/caseirinhos.jpg" alt="Pedido de bolo" loading="lazy" width="1200" height="600" />
+              <p class="catalog-category-description">Aba de bolos e toppers foi movida para a segunda aba de pedido.</p>
               <div class="catalog-items">
                 <article class="catalog-item">
-                  <img src="./images/produtos/itens/salgados--empada-de-frango-com-requeijao.jpg" alt="Empada de frango com requeijao" loading="lazy" width="640" height="640" />
+                  <img src="./images/produtos/itens/caseirinhos--caseirinho-ninho-morango-e-nutella.jpg" alt="Pedido de bolo" loading="lazy" width="640" height="640" />
                   <div class="catalog-item-content">
-                    <h4>Empada de Frango com Requeijao</h4>
-                    <p class="catalog-item-description">230g Deliciosa empada de frango com requeijao</p>
-                    <p class="catalog-item-price">R$ 14,99</p>
+                    <h4>Ir para Pedido de Bolo</h4>
+                    <p class="catalog-item-description">Abra a pagina separada para escolher pesos, recheios e topper.</p>
+                    <p class="catalog-item-price">Aba 2</p>
                   </div>
-                  <button class="btn btn-secondary order-btn" type="button" data-product="Empada de Frango com Requeijao" data-price="R$ 14,99">Pedir</button>
+                  <a class="btn btn-secondary" href="./pedido-bolo/">Pedido de Bolo</a>
                 </article>
               </div>
             </section>
@@ -566,16 +594,22 @@
       </section>
 
       <section class="section section-soft" id="agendar" data-cv="auto">
-        <div class="container order-grid">
+        <div class="container cake-order-grid">
           <div class="order-copy reveal">
-            <p class="eyebrow">Pedido inteligente</p>
-            <h2>Monte seu pedido e confirme em 1 clique.</h2>
-            <p>Preencha os campos e envie um resumo automatico para o WhatsApp da Thina Doces.</p>
+            <p class="eyebrow">Carrinho completo</p>
+            <h2>Adicione itens do cardapio e finalize em 1 clique.</h2>
+            <p>Funciona tipo carrinho de marketplace: voce toca em "Pedir", vai somando produtos e finaliza no WhatsApp com total automatico.</p>
             <ul>
-              <li>Sem cadastro</li>
-              <li>Atendimento humanizado</li>
-              <li>Resposta rapida</li>
+              <li>Adicione quantos itens quiser</li>
+              <li>Total atualizado automaticamente</li>
+              <li>Pedido completo com endereco</li>
             </ul>
+
+            <article class="cake-menu-board" aria-label="Atalho para pedido de bolo">
+              <h3>Pedido de bolo separado</h3>
+              <p>Para bolos por kg, toppers e recheios personalizados, use a pagina exclusiva de bolos.</p>
+              <a class="btn btn-secondary full" href="./pedido-bolo/">Ir para Pedido de Bolo</a>
+            </article>
           </div>
 
           <form class="order-form reveal" id="orderForm" novalidate>
@@ -585,42 +619,13 @@
             <label for="telefone">Telefone</label>
             <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="(51) 99999-9999" required />
 
-            <label for="produto">Produto</label>
-            <select id="produto" name="produto" required>
-              <option value="">Selecione um item</option>
-              <option>Acai 300ml - R$ 16,00</option>
-              <option>Acai 500ml - R$ 20,00</option>
-              <option>Acai 700ml - R$ 26,00</option>
-              <option>Ninho e morango - R$ 14,99</option>
-              <option>Empada de Frango com Requeijao - R$ 14,99</option>
-              <option>Coca cola ZERO 200ml - R$ 2,99</option>
-              <option>Caseirinho Cenoura - R$ 17,99</option>
-              <option>Caseirinho Dois Amores - R$ 17,99</option>
-              <option>Caseirinho Ninho, Morango e Nutella - R$ 19,99</option>
-              <option>Caseirinho Chocolate - R$ 17,99</option>
-              <option>Copo Maracuja - R$ 19,99</option>
-              <option>Copo Kinder Bueno - R$ 22,99</option>
-              <option>Copo Ninho e Nutella - R$ 24,99</option>
-              <option>Copo Laka e Oreo - R$ 19,99</option>
-              <option>Fatia Kinder Bueno - R$ 19,99</option>
-              <option>Fatia Ninho com Morango e Nutella - R$ 22,99</option>
-              <option>Fatia Laka e Oreo - R$ 19,99</option>
-              <option>Cookies com Nutella - R$ 20,00</option>
-              <option>Dose de Morango - R$ 14,99</option>
-              <option>Dose de Brownie - R$ 14,99</option>
-              <option>Browkies com Nutella - R$ 19,99</option>
-            </select>
-
-            <label for="data">Data desejada</label>
-            <input id="data" name="data" type="date" required />
-
-            <label for="horario">Horario</label>
-            <input id="horario" name="horario" type="time" min="09:00" max="22:00" step="1800" required />
+            <label for="endereco">Endereco completo</label>
+            <input id="endereco" name="endereco" type="text" placeholder="Rua, numero, bairro e referencia" required />
 
             <label for="obs">Observacoes</label>
-            <textarea id="obs" name="obs" rows="3" placeholder="Ex: sem lactose, retirar no local, etc."></textarea>
-
-            <button class="btn btn-primary full" type="submit">Agendar pelo WhatsApp</button>
+            <textarea id="obs" name="obs" rows="3" placeholder="Ex: sem lactose, sem colher, retirar no local, etc."></textarea>
+            <p class="form-tip">Revise os itens no carrinho lateral e depois envie o pedido.</p>
+            <button class="btn btn-primary full" type="submit" id="checkoutBtn">Enviar pedido no WhatsApp</button>
             <p class="form-feedback" id="formFeedback" role="status" aria-live="polite"></p>
           </form>
         </div>
@@ -662,6 +667,45 @@
       </section>
     </main>
 
+    <aside class="cart-panel floating-cart" id="cartPanel" aria-live="polite">
+      <h3>Carrinho</h3>
+      <p class="cart-empty" id="cartEmpty">Nenhum item adicionado ainda.</p>
+      <ul class="cart-list" id="cartList"></ul>
+      <div class="cart-total-row">
+        <span>Total</span>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <button class="btn btn-primary full" type="button" id="goToCheckoutBtn">Finalizar pedido</button>
+    </aside>
+
+    <div class="acai-modal" id="acaiModal" hidden>
+      <div class="acai-modal-backdrop" data-acai-close></div>
+      <section class="acai-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="acaiModalTitle">
+        <button class="acai-modal-close" type="button" data-acai-close aria-label="Fechar guia de complementos">x</button>
+
+        <header class="acai-modal-header">
+          <img id="acaiModalImage" src="./images/produtos/itens/acai-polpa-norte--300ml.jpg" alt="Produto de acai" loading="lazy" width="160" height="160" />
+          <div>
+            <h3 id="acaiModalTitle">Acaí</h3>
+            <p id="acaiModalMeta">Escolha os complementos do seu pedido.</p>
+            <p id="acaiModalBasePrice" class="acai-modal-base">Preco base: R$ 0,00</p>
+          </div>
+        </header>
+
+        <label class="acai-modal-filter-label" for="acaiModalFilter">Filtrar por nome</label>
+        <input id="acaiModalFilter" type="search" placeholder="Digite para filtrar um complemento" />
+
+        <div class="acai-modal-content" id="acaiModalContent"></div>
+
+        <p class="acai-modal-feedback" id="acaiModalFeedback" role="status" aria-live="polite"></p>
+
+        <footer class="acai-modal-footer">
+          <p>Total do item: <strong id="acaiModalTotal">R$ 0,00</strong></p>
+          <button class="btn btn-primary" id="acaiModalConfirm" type="button">Adicionar ao carrinho</button>
+        </footer>
+      </section>
+    </div>
+
     <footer class="site-footer">
       <div class="container footer-row">
         <p>Thina Doces - Canoas RS</p>
@@ -672,7 +716,7 @@
     <a class="whatsapp-float" data-wa-default href="https://wa.me/5551993446956" target="_blank" rel="noreferrer" aria-label="Abrir WhatsApp da Thina Doces">WhatsApp</a>
 
     <div class="mobile-cta" id="mobileCta">
-      <a class="btn btn-secondary full" data-wa-default href="https://wa.me/5551993446956" target="_blank" rel="noreferrer">Agendar pelo WhatsApp</a>
+      <a class="btn btn-secondary full" href="./pedido-bolo/">Pedido de Bolo</a>
     </div>
 
     <script src="./script.js" defer></script>
