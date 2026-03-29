@@ -599,6 +599,7 @@ body.modal-open {
   box-shadow: 0 24px 48px rgba(20, 16, 25, 0.38);
   padding: 0.95rem;
   display: grid;
+  grid-template-rows: auto auto auto minmax(0, 1fr) auto auto;
   gap: 0.6rem;
   overflow: hidden;
 }
@@ -665,7 +666,8 @@ body.modal-open {
 }
 
 .acai-modal-content {
-  max-height: 50vh;
+  min-height: 0;
+  max-height: none;
   overflow: auto;
   display: grid;
   gap: 0.6rem;
@@ -1512,7 +1514,7 @@ body.modal-open {
   }
 
   .acai-modal-dialog {
-    max-height: 92vh;
+    max-height: calc(100dvh - 1rem);
     padding: 0.75rem;
   }
 
@@ -1526,7 +1528,20 @@ body.modal-open {
   }
 
   .acai-modal-content {
-    max-height: 54vh;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .acai-modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding-bottom: calc(0.64rem + env(safe-area-inset-bottom));
+  }
+
+  .acai-modal-footer .btn {
+    width: 100%;
+    min-height: 44px;
   }
 
   .acai-option-row {
