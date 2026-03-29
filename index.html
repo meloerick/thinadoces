@@ -147,8 +147,20 @@
           <header class="section-head reveal">
             <p class="eyebrow">Cardapio por categoria</p>
             <h2>Tudo separado por categoria, com preco atualizado.</h2>
-            <p>Toque em "Pedir" no item desejado para abrir direto no WhatsApp.</p>
+            <p>Use a busca para encontrar rapido e toque em "Adicionar ao carrinho".</p>
           </header>
+
+          <div class="catalog-search reveal">
+            <label class="catalog-search-label" for="catalogSearch">Buscar item no cardapio</label>
+            <input
+              id="catalogSearch"
+              type="search"
+              inputmode="search"
+              placeholder="Digite nome, categoria ou preco"
+              autocomplete="off"
+            />
+            <p class="catalog-search-empty" id="catalogSearchEmpty" hidden>Nenhum item encontrado para essa busca.</p>
+          </div>
 
           <div class="catalog-categories">
             <section class="catalog-category reveal" aria-label="Categoria Acai Polpa Norte">

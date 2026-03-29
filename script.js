@@ -64,6 +64,9 @@ const navList = document.getElementById("navList");
 const scrollProgress = document.getElementById("scrollProgress");
 const revealElements = document.querySelectorAll(".reveal");
 const orderButtons = document.querySelectorAll(".order-btn");
+const catalogSearchInput = document.getElementById("catalogSearch");
+const catalogSearchEmpty = document.getElementById("catalogSearchEmpty");
+const catalogCategories = document.querySelectorAll("#servicos .catalog-category");
 const orderForm = document.getElementById("orderForm");
 const formFeedback = document.getElementById("formFeedback");
 const dateInput = document.getElementById("data");
@@ -1051,7 +1054,12 @@ function setupCart() {
     if (action === "increase") {
       cartItems[index].quantity += 1;
     } else if (action === "decrease") {
-      cartItems[index].quantity = Math.max(1, cartItems[index].quantity - 1);
+      const nextQuantity = Number(cartItems[index].quantity || 0) - 1;
+      if (nextQuantity <= 0) {
+        cartItems.splice(index, 1);
+      } else {
+        cartItems[index].quantity = nextQuantity;
+      }
     } else if (action === "remove") {
       cartItems.splice(index, 1);
     }
@@ -1136,6 +1144,67 @@ function setupProductButtons() {
       const message = `Ola! Quero pedir ${product}${price ? ` (${price})` : ""}. Pode me confirmar disponibilidade?`;
       openWhatsAppMessage(message);
     });
+  });
+}
+
+function getCatalogItemSearchText(item, categoryName) {
+  const title = item.querySelector("h4")?.textContent || "";
+  const description = item.querySelector(".catalog-item-description")?.textContent || "";
+  const price = item.querySelector(".catalog-item-price")?.textContent || "";
+  const orderProduct = item.querySelector(".order-btn")?.dataset.product || "";
+  const linkText = item.querySelector("a.btn")?.textContent || "";
+
+  return normalizeSearchText([categoryName, title, description, price, orderProduct, linkText].filter(Boolean).join(" "));
+}
+
+function applyCatalogSearchFilter(rawTerm) {
+  if (!catalogCategories.length) return;
+
+  const normalizedTerm = normalizeSearchText(rawTerm);
+  let totalVisibleItems = 0;
+
+  catalogCategories.forEach((category) => {
+    const categoryName = category.querySelector(".catalog-category-title h3")?.textContent || "";
+    const categoryMatches = normalizedTerm ? normalizeSearchText(categoryName).includes(normalizedTerm) : false;
+    const items = Array.from(category.querySelectorAll(".catalog-item"));
+
+    let visibleInCategory = 0;
+    items.forEach((item) => {
+      const itemMatches = !normalizedTerm || categoryMatches || getCatalogItemSearchText(item, categoryName).includes(normalizedTerm);
+      item.hidden = !itemMatches;
+      item.setAttribute("aria-hidden", String(!itemMatches));
+      if (itemMatches) {
+        visibleInCategory += 1;
+      }
+    });
+
+    category.hidden = visibleInCategory === 0;
+    category.setAttribute("aria-hidden", String(visibleInCategory === 0));
+    totalVisibleItems += visibleInCategory;
+  });
+
+  if (catalogSearchEmpty) {
+    catalogSearchEmpty.hidden = !normalizedTerm || totalVisibleItems > 0;
+  }
+}
+
+function setupCatalogSearch() {
+  if (!catalogSearchInput || !catalogCategories.length) return;
+
+  applyCatalogSearchFilter("");
+
+  catalogSearchInput.addEventListener("input", () => {
+    applyCatalogSearchFilter(catalogSearchInput.value);
+  });
+
+  catalogSearchInput.addEventListener("search", () => {
+    applyCatalogSearchFilter(catalogSearchInput.value);
+  });
+
+  catalogSearchInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    catalogSearchInput.value = "";
+    applyCatalogSearchFilter("");
   });
 }
 
@@ -1272,6 +1341,7 @@ setupRevealAnimation();
 setupFaq();
 setupAcaiModal();
 setupProductButtons();
+setupCatalogSearch();
 setupRecheioLimit();
 setupOrderDate();
 setupOrderFormValidation();

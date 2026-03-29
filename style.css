@@ -405,6 +405,46 @@ h3 {
   color: var(--muted);
 }
 
+.catalog-search {
+  margin-bottom: 1rem;
+  display: grid;
+  gap: 0.45rem;
+  max-width: 680px;
+}
+
+.catalog-search-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+#catalogSearch {
+  width: 100%;
+  border-radius: 11px;
+  border: 1px solid #ccd2da;
+  background: #fff;
+  padding: 0.72rem 0.78rem;
+  font: inherit;
+  color: var(--text);
+}
+
+#catalogSearch::placeholder {
+  color: #8a8f98;
+}
+
+#catalogSearch:focus {
+  outline: none;
+  border-color: rgba(193, 38, 119, 0.55);
+  box-shadow: 0 0 0 4px rgba(193, 38, 119, 0.13);
+}
+
+.catalog-search-empty {
+  min-height: 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #9c1745;
+}
+
 .catalog-categories {
   display: grid;
   gap: 1rem;
@@ -464,6 +504,7 @@ h3 {
   grid-template-columns: 128px 1fr auto;
   gap: 0.85rem;
   align-items: stretch;
+  position: relative;
 }
 
 .catalog-item img {
@@ -520,7 +561,9 @@ h3 {
   text-align: center;
   white-space: normal;
   position: relative;
-  z-index: 2;
+  z-index: 2001;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 body.modal-open {
@@ -1130,6 +1173,8 @@ body.modal-open {
 .cart-control {
   width: 26px;
   height: 26px;
+  min-width: 26px;
+  min-height: 26px;
   border: 0;
   border-radius: 50%;
   background: #ffe3ef;
@@ -1150,6 +1195,8 @@ body.modal-open {
   color: #b01a52;
   font-weight: 700;
   width: fit-content;
+  display: inline-flex;
+  align-items: center;
   cursor: pointer;
   touch-action: manipulation;
   min-height: 32px;
@@ -1180,6 +1227,9 @@ body.modal-open {
   width: min(360px, calc(100vw - 1.6rem));
   max-height: calc(100vh - 116px);
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
   z-index: 1800;
   box-shadow: 0 20px 46px rgba(44, 17, 30, 0.24);
 }
@@ -1187,6 +1237,9 @@ body.modal-open {
 .floating-cart .cart-list {
   max-height: 42vh;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
   padding-right: 0.18rem;
 }
 
@@ -1497,11 +1550,10 @@ body.modal-open {
     width: min(200px, 48vw);
     max-height: 34vh;
     padding: 0.58rem;
-    pointer-events: none;
-  }
-
-  .floating-cart > * {
-    pointer-events: auto;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
   }
 
   .floating-cart h3 {
@@ -1514,6 +1566,10 @@ body.modal-open {
 
   .floating-cart .cart-list {
     max-height: 14vh;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
   }
 
   .floating-cart .cart-item {
