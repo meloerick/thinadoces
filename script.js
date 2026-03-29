@@ -1,5 +1,7 @@
 ﻿const WA_PHONE = "5551993409758";
 const DEFAULT_WA_MESSAGE = "Olá! Vim pelo site e gostaria de agendar um horário 💅";
+const THINA_PIX = "+5551993446956";
+const PIX_INSTRUCTION = `Finalize o pagamento para este Pix: ${THINA_PIX}`;
 
 const body = document.body;
 const header = document.querySelector(".header");
@@ -10,7 +12,8 @@ const revealElements = document.querySelectorAll(".reveal");
 const yearEl = document.getElementById("year");
 
 function buildWhatsAppUrl(message) {
-  const finalMessage = message && message.trim() ? message.trim() : DEFAULT_WA_MESSAGE;
+  const baseMessage = message && message.trim() ? message.trim() : DEFAULT_WA_MESSAGE;
+  const finalMessage = baseMessage.includes(THINA_PIX) ? baseMessage : `${baseMessage}\n\n${PIX_INSTRUCTION}`;
   return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(finalMessage)}`;
 }
 
