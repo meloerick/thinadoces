@@ -1,12 +1,12 @@
 const WA_PHONE = "5551993446956";
-const DEFAULT_WA_MESSAGE = "Ola! Quero fazer um pedido na Thina Doces.";
+const DEFAULT_WA_MESSAGE = "Ol\u00e1! Quero fazer um pedido na Thina Doces.";
 const THINA_PIX = "51993446956";
 const PIX_CHECKOUT_LINE = `Finalize o pagamento para este Pix: ${THINA_PIX}.`;
 const MOBILE_BREAKPOINT = 860;
 const MAX_RECHEIOS = 2;
 const ORDER_OPEN_MINUTES = 12 * 60;
 const ORDER_CLOSE_MINUTES = 24 * 60;
-const ORDER_HOURS_LABEL = "12:00 as 00:00";
+const ORDER_HOURS_LABEL = "12:00 \u00e0s 00:00";
 const ACAI_GROUPS_TEMPLATE = [
   {
     key: "complementos",
@@ -16,10 +16,10 @@ const ACAI_GROUPS_TEMPLATE = [
     items: [
       { name: "Leite condensado", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad23e470.jpeg" },
       { name: "Uva verde", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad28e419.jpeg" },
-      { name: "Leite em po", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad2d202b.jpeg" },
+      { name: "Leite em p\u00f3", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad2d202b.jpeg" },
       { name: "Banana", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003396973dad372c64.jpeg" },
       { name: "Abacaxi", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad411d63.jpeg" },
-      { name: "Pacoca", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad466b12.jpeg" },
+      { name: "Pa\u00e7oca", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad466b12.jpeg" },
       { name: "Amendoim", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad4b43a2.jpeg" },
       { name: "Granola", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad50882b.jpeg" },
       { name: "Chocobool", price: 0, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad5508b1.jpeg" },
@@ -30,7 +30,7 @@ const ACAI_GROUPS_TEMPLATE = [
   },
   {
     key: "descartaveis",
-    label: "Descartaveis",
+    label: "Descart\u00e1veis",
     min: 0,
     max: 1,
     items: [{ name: "Colher", price: 0, image: "" }],
@@ -47,9 +47,9 @@ const ACAI_GROUPS_TEMPLATE = [
       { name: "Nutella", price: 7, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912391697eb847386cd.jpeg" },
       { name: "Brigadeiro", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912391697eb8477ffd7.jpeg" },
       { name: "Branquinho", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912391697eb847cee5e.jpeg" },
-      { name: "Mousse de maracuja", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912392697eb8481f1d3.jpeg" },
+      { name: "Mousse de maracuj\u00e1", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912392697eb8481f1d3.jpeg" },
       { name: "Geleia de morango", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912392697eb8486885a.jpeg" },
-      { name: "Geleia de maracuja", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912392697eb848ae8c7.jpeg" },
+      { name: "Geleia de maracuj\u00e1", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912392697eb848ae8c7.jpeg" },
       { name: "Ovomaltine", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912393697eb84907a97.jpeg" },
       { name: "Negresco triturado", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912393697eb84959a2a.jpeg" },
       { name: "Oreo", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912393697eb849aab28.jpeg" },
@@ -284,13 +284,13 @@ function renderAcaiModal() {
 
   if (acaiModalMeta) {
     const includedText = acaiModalState.includedCount
-      ? `${acaiModalState.includedCount} complementos gratis`
+      ? `${acaiModalState.includedCount} complementos gr\u00e1tis`
       : "Escolha os complementos do seu pedido";
     acaiModalMeta.textContent = includedText;
   }
 
   if (acaiModalBasePrice) {
-    acaiModalBasePrice.textContent = `Preco base: ${formatCurrencyPtBr(acaiModalState.unitPrice)}`;
+    acaiModalBasePrice.textContent = `Pre\u00e7o base: ${formatCurrencyPtBr(acaiModalState.unitPrice)}`;
   }
 
   if (acaiModalImage) {
@@ -315,7 +315,7 @@ function renderAcaiModal() {
             .map((item) => {
               const quantity = Number(item.quantity || 0);
               const canIncrease = selectedCount < group.max;
-              const priceText = Number(item.price || 0) > 0 ? `+${formatCurrencyPtBr(item.price)}` : "Gratis";
+              const priceText = Number(item.price || 0) > 0 ? `+${formatCurrencyPtBr(item.price)}` : "Gr\u00e1tis";
               const hasImage = Boolean(item.image);
 
               return `
@@ -369,7 +369,7 @@ function changeAcaiItemQuantity(groupKey, itemName, delta) {
 
   const selectedCount = getAcaiGroupTotal(group);
   if (delta > 0 && selectedCount >= group.max) {
-    setAcaiModalFeedback(`Limite atingido em ${group.label}: maximo ${group.max}.`, "error");
+    setAcaiModalFeedback(`Limite atingido em ${group.label}: m\u00e1ximo ${group.max}.`, "error");
     return;
   }
 
@@ -479,7 +479,7 @@ function setupAcaiModal() {
     const complementosTotal = getAcaiGroupTotal(complementosGroup);
 
     if (complementosGroup && complementosTotal < complementosGroup.min) {
-      setAcaiModalFeedback(`Selecione no minimo ${complementosGroup.min} complemento(s).`, "error");
+      setAcaiModalFeedback(`Selecione no m\u00ednimo ${complementosGroup.min} complemento(s).`, "error");
       return;
     }
 
@@ -835,7 +835,7 @@ function setupRecheioLimit() {
     input.addEventListener("change", () => {
       if (getCheckedCount() > MAX_RECHEIOS) {
         input.checked = false;
-        setFormFeedback(`Voce pode escolher no maximo ${MAX_RECHEIOS} recheios.`, "error");
+        setFormFeedback(`Voc\u00ea pode escolher no m\u00e1ximo ${MAX_RECHEIOS} recheios.`, "error");
       }
       updateDisabledState();
     });
@@ -884,7 +884,7 @@ function renderCart() {
       const acaiDescartaveis = formatSelectedNames(item.acaiSelection.descartaveis);
       if (acaiComplementos) notes.push(`Complementos: ${acaiComplementos}`);
       if (acaiAdicionais) notes.push(`Adicionais: ${acaiAdicionais}`);
-      if (acaiDescartaveis) notes.push(`Descartaveis: ${acaiDescartaveis}`);
+      if (acaiDescartaveis) notes.push(`Descart\u00e1veis: ${acaiDescartaveis}`);
     }
     if (Array.isArray(item.recheios) && item.recheios.length) {
       notes.push(`Recheios: ${item.recheios.join(", ")}`);
@@ -914,7 +914,7 @@ function renderCart() {
 
 function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPrice }) {
   if (!productName || Number(unitPrice || 0) <= 0) {
-    setFormFeedback("Nao foi possivel adicionar este acai ao carrinho.", "error");
+    setFormFeedback("N\u00e3o foi poss\u00edvel adicionar este a\u00e7a\u00ed ao carrinho.", "error");
     return;
   }
 
@@ -955,7 +955,7 @@ function addAcaiItemToCart({ productName, unitPrice, acaiSelection, extraUnitPri
 function addCatalogItemToCart(productName, priceText) {
   const unitPrice = parsePricePtBr(priceText);
   if (!productName || unitPrice <= 0) {
-    setFormFeedback("Nao foi possivel adicionar este item ao carrinho.", "error");
+    setFormFeedback("N\u00e3o foi poss\u00edvel adicionar este item ao carrinho.", "error");
     return;
   }
 
@@ -993,7 +993,7 @@ function addCurrentSelectionToCart() {
   const topper = getSelectedTopper();
   const recheios = getSelectedRecheios();
   if (recheios.length > MAX_RECHEIOS) {
-    setFormFeedback(`Voce pode escolher no maximo ${MAX_RECHEIOS} recheios.`, "error");
+    setFormFeedback(`Voc\u00ea pode escolher no m\u00e1ximo ${MAX_RECHEIOS} recheios.`, "error");
     return;
   }
 
@@ -1185,7 +1185,7 @@ function setupProductButtons() {
         return;
       }
 
-      const message = `Ola! Quero pedir ${product}${price ? ` (${price})` : ""}. Pode me confirmar disponibilidade?`;
+      const message = `Ol\u00e1! Quero pedir ${product}${price ? ` (${price})` : ""}. Pode me confirmar disponibilidade?`;
       openWhatsAppMessage(message);
     });
   });
@@ -1319,11 +1319,11 @@ function setupOrderForm() {
     const obs = String(formData.get("obs") || "").trim();
     const dateTimeLine =
       data && horario
-        ? `Data desejada: ${data} as ${horario}.`
+        ? `Data desejada: ${data} \u00e0s ${horario}.`
         : data
           ? `Data desejada: ${data}.`
           : horario
-            ? `Horario desejado: ${horario}.`
+            ? `Hor\u00e1rio desejado: ${horario}.`
             : "";
 
     const itensResumo = cartItems.map((item, index) => {
@@ -1334,7 +1334,7 @@ function setupOrderForm() {
         const acaiDescartaveis = formatSelectedNames(item.acaiSelection.descartaveis);
         if (acaiComplementos) extras.push(`Complementos: ${acaiComplementos}`);
         if (acaiAdicionais) extras.push(`Adicionais: ${acaiAdicionais}`);
-        if (acaiDescartaveis) extras.push(`Descartaveis: ${acaiDescartaveis}`);
+        if (acaiDescartaveis) extras.push(`Descart\u00e1veis: ${acaiDescartaveis}`);
       }
       if (Array.isArray(item.recheios) && item.recheios.length) {
         extras.push(`Recheios: ${item.recheios.join(", ")}`);
@@ -1348,22 +1348,22 @@ function setupOrderForm() {
     const total = formatCurrencyPtBr(calculateCartTotal());
 
     const message = [
-      `Ola! Meu nome e ${nome}.`,
+      `Ol\u00e1! Meu nome \u00e9 ${nome}.`,
       productSelect ? "Quero fazer uma encomenda de bolo:" : "Quero fazer um pedido:",
       ...itensResumo.map((line) => `- ${line}`),
       `Total do pedido: ${total}.`,
       PIX_CHECKOUT_LINE,
-      `Endereco: ${endereco}.`,
+      `Endere\u00e7o: ${endereco}.`,
       dateTimeLine,
       `Telefone: ${telefone}.`,
-      obs ? `Observacoes: ${obs}.` : "",
+      obs ? `Observa\u00e7\u00f5es: ${obs}.` : "",
     ]
       .filter(Boolean)
       .join("\n");
 
     const opened = openWhatsAppMessage(message);
     if (!opened) {
-      setFormFeedback("Nao foi possivel abrir o WhatsApp automaticamente.", "error");
+      setFormFeedback("N\u00e3o foi poss\u00edvel abrir o WhatsApp automaticamente.", "error");
       return;
     }
 
@@ -1373,7 +1373,7 @@ function setupOrderForm() {
     syncRecheioLimit();
     setupOrderDate();
     if (quantityInput) quantityInput.value = "1";
-    setFormFeedback("Pedido enviado. Abrindo o WhatsApp para confirmacao.", "success");
+    setFormFeedback("Pedido enviado. Abrindo o WhatsApp para confirma\u00e7\u00e3o.", "success");
   });
 }
 
