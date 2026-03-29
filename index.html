@@ -78,12 +78,14 @@
             <li><a href="#galeria">Galeria</a></li>
             <li><a href="#avaliacoes">Depoimentos</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="./pedido-bolo/">Pedido de Bolo</a></li>
             <li><a href="#localizacao">Localizacao</a></li>
           </ul>
         </nav>
 
-        <a class="btn btn-primary nav-cta" href="./pedido-bolo/">Pedido de Bolo</a>
+        <div class="nav-cake-cta">
+          <p class="nav-cake-cta__text">monte seu pedido de bolo por aqui</p>
+          <a class="btn btn-primary nav-cta" href="./pedido-bolo/">Pedido de Bolo</a>
+        </div>
       </div>
     </header>
 
@@ -137,7 +139,6 @@
             <div class="hero-panel-card">
               <h2>Pedido rapido</h2>
               <p>Monte seu pedido no WhatsApp em menos de 1 minuto.</p>
-              <a class="btn btn-secondary full" href="./pedido-bolo/">Pedido de Bolo</a>
             </div>
           </aside>
         </div>
@@ -236,25 +237,6 @@
                     <p class="catalog-item-price">R$ 14,99</p>
                   </div>
                   <button class="btn btn-secondary order-btn" type="button" data-product="Ninho e morango" data-price="R$ 14,99">Adicionar ao carrinho</button>
-                </article>
-              </div>
-            </section>
-
-            <section class="catalog-category reveal" aria-label="Pedido de bolo">
-              <header class="catalog-category-title">
-                <h3>PEDIDO DE BOLO</h3>
-              </header>
-              <img class="catalog-cover" src="./images/produtos/categorias/caseirinhos.jpg" alt="Pedido de bolo" loading="lazy" width="1200" height="600" />
-              <p class="catalog-category-description">Aba de bolos e toppers foi movida para a segunda aba de pedido.</p>
-              <div class="catalog-items">
-                <article class="catalog-item">
-                  <img src="./images/produtos/itens/caseirinhos--caseirinho-ninho-morango-e-nutella.jpg" alt="Pedido de bolo" loading="lazy" width="640" height="640" />
-                  <div class="catalog-item-content">
-                    <h4>Ir para Pedido de Bolo</h4>
-                    <p class="catalog-item-description">Abra a pagina separada para escolher pesos, recheios e topper.</p>
-                    <p class="catalog-item-price">Aba 2</p>
-                  </div>
-                  <a class="btn btn-secondary" href="./pedido-bolo/">Pedido de Bolo</a>
                 </article>
               </div>
             </section>
@@ -478,6 +460,38 @@
         </div>
       </section>
 
+      <section class="section section-soft" id="agendar" data-cv="auto">
+        <div class="container cake-order-grid">
+          <div class="order-copy reveal">
+            <p class="eyebrow">Carrinho completo</p>
+            <h2>Adicione itens do cardapio e finalize em 1 clique.</h2>
+            <p>Funciona tipo carrinho de marketplace: voce toca em "Pedir", vai somando produtos e finaliza no WhatsApp com total automatico.</p>
+            <ul>
+              <li>Adicione quantos itens quiser</li>
+              <li>Total atualizado automaticamente</li>
+              <li>Pedido completo com endereco</li>
+            </ul>
+          </div>
+
+          <form class="order-form reveal" id="orderForm" novalidate>
+            <label for="nome">Nome</label>
+            <input id="nome" name="nome" type="text" minlength="2" required />
+
+            <label for="telefone">Telefone</label>
+            <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="(51) 99999-9999" required />
+
+            <label for="endereco">Endereco completo</label>
+            <input id="endereco" name="endereco" type="text" placeholder="Rua, numero, bairro e referencia" required />
+
+            <label for="obs">Observacoes</label>
+            <textarea id="obs" name="obs" rows="3" placeholder="Ex: sem lactose, sem colher, retirar no local, etc."></textarea>
+            <p class="form-tip">Revise os itens no carrinho lateral e depois envie o pedido.</p>
+            <button class="btn btn-primary full" type="submit" id="checkoutBtn">Enviar pedido no WhatsApp</button>
+            <p class="form-feedback" id="formFeedback" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
       <section class="section section-soft" id="diferenciais" data-cv="auto">
         <div class="container">
           <header class="section-head reveal">
@@ -601,44 +615,6 @@
         </div>
       </section>
 
-      <section class="section section-soft" id="agendar" data-cv="auto">
-        <div class="container cake-order-grid">
-          <div class="order-copy reveal">
-            <p class="eyebrow">Carrinho completo</p>
-            <h2>Adicione itens do cardapio e finalize em 1 clique.</h2>
-            <p>Funciona tipo carrinho de marketplace: voce toca em "Pedir", vai somando produtos e finaliza no WhatsApp com total automatico.</p>
-            <ul>
-              <li>Adicione quantos itens quiser</li>
-              <li>Total atualizado automaticamente</li>
-              <li>Pedido completo com endereco</li>
-            </ul>
-
-            <article class="cake-menu-board" aria-label="Atalho para pedido de bolo">
-              <h3>Pedido de bolo separado</h3>
-              <p>Para bolos por kg, toppers e recheios personalizados, use a pagina exclusiva de bolos.</p>
-              <a class="btn btn-secondary full" href="./pedido-bolo/">Ir para Pedido de Bolo</a>
-            </article>
-          </div>
-
-          <form class="order-form reveal" id="orderForm" novalidate>
-            <label for="nome">Nome</label>
-            <input id="nome" name="nome" type="text" minlength="2" required />
-
-            <label for="telefone">Telefone</label>
-            <input id="telefone" name="telefone" type="tel" inputmode="numeric" placeholder="(51) 99999-9999" required />
-
-            <label for="endereco">Endereco completo</label>
-            <input id="endereco" name="endereco" type="text" placeholder="Rua, numero, bairro e referencia" required />
-
-            <label for="obs">Observacoes</label>
-            <textarea id="obs" name="obs" rows="3" placeholder="Ex: sem lactose, sem colher, retirar no local, etc."></textarea>
-            <p class="form-tip">Revise os itens no carrinho lateral e depois envie o pedido.</p>
-            <button class="btn btn-primary full" type="submit" id="checkoutBtn">Enviar pedido no WhatsApp</button>
-            <p class="form-feedback" id="formFeedback" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-      </section>
-
       <section class="section" id="localizacao" data-cv="auto">
         <div class="container location-grid">
           <article class="location-card reveal">
@@ -720,10 +696,6 @@
         <p>Copyright 2026. Todos os direitos reservados.</p>
       </div>
     </footer>
-
-    <div class="mobile-cta" id="mobileCta">
-      <a class="btn btn-secondary full" href="./pedido-bolo/">Pedido de Bolo</a>
-    </div>
 
     <script src="./script.js" defer></script>
   </body>

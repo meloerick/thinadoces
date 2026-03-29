@@ -200,8 +200,23 @@ h3 {
   color: var(--accent);
 }
 
-.nav-cta {
+.nav-cake-cta {
   margin-left: 0.4rem;
+  display: grid;
+  gap: 0.24rem;
+  justify-items: end;
+}
+
+.nav-cake-cta__text {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.nav-cta {
+  margin-left: 0;
 }
 
 .menu-toggle {
@@ -1363,10 +1378,6 @@ body.modal-open {
   flex-wrap: wrap;
 }
 
-.mobile-cta {
-  display: none;
-}
-
 .reveal {
   opacity: 0;
   transform: translateY(22px) scale(0.99);
@@ -1454,7 +1465,7 @@ body.modal-open {
     pointer-events: auto;
   }
 
-  .nav-cta {
+  .nav-cake-cta {
     display: none;
   }
 
@@ -1625,25 +1636,7 @@ body.modal-open {
   }
 
   .site-footer {
-    padding-bottom: 8.7rem;
-  }
-
-  .mobile-cta {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1950;
-    display: block;
-    padding: 0.7rem;
-    backdrop-filter: blur(8px);
-    background: rgba(255, 248, 246, 0.94);
-    border-top: 1px solid var(--line);
-    pointer-events: none;
-  }
-
-  .mobile-cta .btn {
-    pointer-events: auto;
+    padding-bottom: 6.8rem;
   }
 }
 
