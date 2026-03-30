@@ -7,6 +7,13 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="supabase-url" content="" />
     <meta name="supabase-anon-key" content="" />
+    <script>
+      (function () {
+        if (/\/admin$/i.test(window.location.pathname)) {
+          window.location.replace(`${window.location.pathname}/${window.location.search}${window.location.hash}`);
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
