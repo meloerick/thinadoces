@@ -7,6 +7,9 @@ const MAX_RECHEIOS = 2;
 const ORDER_OPEN_MINUTES = 12 * 60;
 const ORDER_CLOSE_MINUTES = 24 * 60;
 const ORDER_HOURS_LABEL = "12:00 \u00e0s 00:00";
+const DISABLED_PRODUCTS_STORAGE_KEY = "thina_disabled_products_v1";
+const DISABLED_ACAI_COMPLEMENTS_STORAGE_KEY = "thina_disabled_acai_complements_v1";
+const FREE_ACAI_COMPLEMENTS_LIMIT = 3;
 const ACAI_GROUPS_TEMPLATE = [
   {
     key: "complementos",
@@ -41,6 +44,18 @@ const ACAI_GROUPS_TEMPLATE = [
     min: 0,
     max: 5,
     items: [
+      { name: "Leite condensado", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad23e470.jpeg", isComplementExtra: true },
+      { name: "Uva verde", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad28e419.jpeg", isComplementExtra: true },
+      { name: "Leite em p\u00f3", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003386973dad2d202b.jpeg", isComplementExtra: true },
+      { name: "Banana", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003396973dad372c64.jpeg", isComplementExtra: true },
+      { name: "Abacaxi", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad411d63.jpeg", isComplementExtra: true },
+      { name: "Pa\u00e7oca", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad466b12.jpeg", isComplementExtra: true },
+      { name: "Amendoim", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003406973dad4b43a2.jpeg", isComplementExtra: true },
+      { name: "Granola", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad50882b.jpeg", isComplementExtra: true },
+      { name: "Chocobool", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad5508b1.jpeg", isComplementExtra: true },
+      { name: "Confetes", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad5a02d8.jpeg", isComplementExtra: true },
+      { name: "Cobertura de morango", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003416973dad5e8a09.jpeg", isComplementExtra: true },
+      { name: "Cobertura de chocolate", price: 2, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/17692003426973dad63a713.jpeg", isComplementExtra: true },
       { name: "Creme de morango", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912389697eb845ee04a.jpeg" },
       { name: "Morango", price: 4, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912390697eb84647e89.jpeg" },
       { name: "Creme de ninho", price: 5, image: "https://instadelivery-public.nyc3.cdn.digitaloceanspaces.com/complements/1769912390697eb8468eebd.jpeg" },
@@ -100,6 +115,8 @@ const acaiModalConfirm = document.getElementById("acaiModalConfirm");
 const cartItems = [];
 let syncRecheioLimit = () => {};
 let acaiModalState = null;
+let disabledProductsSet = new Set();
+let disabledAcaiComplementsSet = new Set();
 
 function buildWaUrl(message) {
   const safeMessage = encodeURIComponent(String(message || ""));
@@ -201,6 +218,160 @@ function normalizeSearchText(value) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+function normalizeProductKey(value) {
+  return normalizeSearchText(String(value || "").trim());
+}
+
+function loadDisabledProductsSet() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(DISABLED_PRODUCTS_STORAGE_KEY) || "[]");
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(parsed.map((item) => normalizeProductKey(item)).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
+function saveDisabledProductsSet(valueSet) {
+  try {
+    localStorage.setItem(DISABLED_PRODUCTS_STORAGE_KEY, JSON.stringify(Array.from(valueSet.values())));
+  } catch {
+    // no-op
+  }
+}
+
+function loadDisabledAcaiComplementsSet() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(DISABLED_ACAI_COMPLEMENTS_STORAGE_KEY) || "[]");
+    if (!Array.isArray(parsed)) return new Set();
+    return new Set(parsed.map((item) => normalizeProductKey(item)).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
+function applyDisabledAcaiComplementsToGroups(groups) {
+  if (!Array.isArray(groups)) return;
+
+  const complementosGroup = groups.find((group) => group.key === "complementos");
+  const adicionaisGroup = groups.find((group) => group.key === "adicionais");
+
+  if (adicionaisGroup && Array.isArray(adicionaisGroup.items)) {
+    adicionaisGroup.items = adicionaisGroup.items.filter((item) => {
+      if (!item?.isComplementExtra) return true;
+      return !disabledAcaiComplementsSet.has(normalizeProductKey(item.name));
+    });
+  }
+
+  if (complementosGroup && Array.isArray(complementosGroup.items)) {
+    complementosGroup.items = complementosGroup.items.filter(
+      (item) => !disabledAcaiComplementsSet.has(normalizeProductKey(item.name))
+    );
+
+    if (!complementosGroup.items.length) {
+      complementosGroup.min = 0;
+      complementosGroup.max = 0;
+      return;
+    }
+
+    complementosGroup.max = Math.min(Number(complementosGroup.max || 0), complementosGroup.items.length);
+    if (complementosGroup.max < 0) complementosGroup.max = 0;
+    complementosGroup.min = Math.min(Number(complementosGroup.min || 0), complementosGroup.max);
+
+    let selectedCount = getAcaiGroupTotal(complementosGroup);
+    if (selectedCount <= complementosGroup.max) return;
+
+    for (let index = complementosGroup.items.length - 1; index >= 0 && selectedCount > complementosGroup.max; index -= 1) {
+      const entry = complementosGroup.items[index];
+      const quantity = Number(entry.quantity || 0);
+      if (quantity <= 0) continue;
+      const excess = Math.min(quantity, selectedCount - complementosGroup.max);
+      entry.quantity = quantity - excess;
+      selectedCount -= excess;
+    }
+  }
+}
+
+function applyDisabledProductsToCatalog() {
+  if (!orderButtons.length) return;
+  let removedLegacyAcaiKeys = false;
+
+  orderButtons.forEach((button) => {
+    const productName = String(button.dataset.product || "").trim();
+    const productKey = normalizeProductKey(productName);
+    const isAcaiButton = button.dataset.acai === "true";
+    const isDisabledByAdmin = !isAcaiButton && disabledProductsSet.has(productKey);
+    const catalogItem = button.closest(".catalog-item");
+
+    if (!button.dataset.defaultText) {
+      button.dataset.defaultText = button.textContent || "Adicionar ao carrinho";
+    }
+
+    if (isAcaiButton && disabledProductsSet.has(productKey)) {
+      disabledProductsSet.delete(productKey);
+      removedLegacyAcaiKeys = true;
+    }
+
+    if (isDisabledByAdmin) {
+      button.dataset.disabledByAdmin = "true";
+      button.disabled = true;
+      button.classList.add("is-unavailable");
+      button.setAttribute("aria-disabled", "true");
+      button.title = "Item indisponivel no momento";
+      button.textContent = "Indisponivel";
+      catalogItem?.classList.add("catalog-item-disabled");
+    } else {
+      button.dataset.disabledByAdmin = "false";
+      button.disabled = false;
+      button.classList.remove("is-unavailable");
+      button.removeAttribute("title");
+      button.textContent = button.dataset.defaultText || "Adicionar ao carrinho";
+      catalogItem?.classList.remove("catalog-item-disabled");
+    }
+  });
+
+  if (removedLegacyAcaiKeys) {
+    saveDisabledProductsSet(disabledProductsSet);
+  }
+}
+
+function setupDisabledProductsSync() {
+  disabledProductsSet = loadDisabledProductsSet();
+  applyDisabledProductsToCatalog();
+
+  window.addEventListener("storage", (event) => {
+    if (event.key !== DISABLED_PRODUCTS_STORAGE_KEY) return;
+    disabledProductsSet = loadDisabledProductsSet();
+    applyDisabledProductsToCatalog();
+  });
+
+  document.addEventListener("thina:disabled-products-updated", () => {
+    disabledProductsSet = loadDisabledProductsSet();
+    applyDisabledProductsToCatalog();
+  });
+}
+
+function setupDisabledAcaiComplementsSync() {
+  disabledAcaiComplementsSet = loadDisabledAcaiComplementsSet();
+
+  const updateCurrentModal = () => {
+    if (!acaiModalState || !Array.isArray(acaiModalState.groups)) return;
+    applyDisabledAcaiComplementsToGroups(acaiModalState.groups);
+    renderAcaiModal();
+  };
+
+  window.addEventListener("storage", (event) => {
+    if (event.key !== DISABLED_ACAI_COMPLEMENTS_STORAGE_KEY) return;
+    disabledAcaiComplementsSet = loadDisabledAcaiComplementsSet();
+    updateCurrentModal();
+  });
+
+  document.addEventListener("thina:disabled-acai-complements-updated", () => {
+    disabledAcaiComplementsSet = loadDisabledAcaiComplementsSet();
+    updateCurrentModal();
+  });
 }
 
 function cloneAcaiGroups() {
@@ -386,13 +557,17 @@ function openAcaiModalFromButton(button, productName, priceText) {
 
   const card = button.closest(".catalog-item");
   const imageSrc = card?.querySelector("img")?.getAttribute("src") || "./images/produtos/itens/acai-polpa-norte--300ml.jpg";
-  const description = card?.querySelector(".catalog-item-description")?.textContent || "";
-  const descriptionMatch = description.match(/\d+/);
-  const includedCount = Number(button.dataset.acaiIncluded || descriptionMatch?.[0] || 0);
+  const includedCount = FREE_ACAI_COMPLEMENTS_LIMIT;
   const groups = cloneAcaiGroups();
+  applyDisabledAcaiComplementsToGroups(groups);
+
   const complementosGroup = groups.find((group) => group.key === "complementos");
-  if (complementosGroup && includedCount > 0) {
-    complementosGroup.max = includedCount;
+  if (complementosGroup) {
+    if (includedCount > 0) {
+      complementosGroup.max = Math.min(includedCount, complementosGroup.items.length);
+    }
+    if (complementosGroup.max < 0) complementosGroup.max = 0;
+    complementosGroup.min = Math.min(complementosGroup.min, complementosGroup.max);
   }
 
   acaiModalState = {
@@ -1146,6 +1321,11 @@ function setupProductButtons() {
   orderButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const product = button.dataset.product || "produto";
+      if (button.dataset.disabledByAdmin === "true") {
+        setFormFeedback(`${product} esta indisponivel no momento.`, "error");
+        return;
+      }
+
       const price = button.dataset.price || "";
       const isAcaiButton = button.dataset.acai === "true";
       const topper = button.dataset.topper || "";
@@ -1367,6 +1547,32 @@ function setupOrderForm() {
       return;
     }
 
+    try {
+      const orderPayload = {
+        customer_name: nome,
+        customer_phone: telefone,
+        customer_address: endereco,
+        note: obs || null,
+        payment_method: "WhatsApp",
+        status: "pendente",
+        total_price: calculateCartTotal(),
+        items: cartItems.map((item) => ({
+          product_name: item.productName,
+          unit_price: Number(item.unitPrice || 0) + Number(item.topperPrice || 0) + Number(item.extraUnitPrice || 0),
+          quantity: Number(item.quantity || 0),
+          subtotal: calculateItemSubtotal(item),
+        })),
+      };
+
+      document.dispatchEvent(
+        new CustomEvent("thina:order-submitted", {
+          detail: orderPayload,
+        })
+      );
+    } catch {
+      // Ignora falhas de sincroniza\u00e7\u00e3o para n\u00e3o interromper o checkout no WhatsApp.
+    }
+
     cartItems.length = 0;
     renderCart();
     orderForm.reset();
@@ -1385,6 +1591,8 @@ setupActiveSectionTracking();
 setupRevealAnimation();
 setupFaq();
 setupAcaiModal();
+setupDisabledProductsSync();
+setupDisabledAcaiComplementsSync();
 setupProductButtons();
 setupCatalogSearch();
 setupRecheioLimit();

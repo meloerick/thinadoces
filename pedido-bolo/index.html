@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
@@ -7,6 +7,8 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#5e1f35" />
     <meta name="format-detection" content="telephone=no" />
+    <meta name="supabase-url" content="" />
+    <meta name="supabase-anon-key" content="" />
     <title>Pedido de Bolo | Thina Doces</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -188,6 +190,10 @@
       </section>
     </main>
 
+    <a class="admin-access-btn" href="/admin" target="_blank" rel="noopener noreferrer" aria-label="Abrir painel admin">
+      Entrar no Admin
+    </a>
+
     <footer class="site-footer">
       <div class="container footer-row">
         <p>Thina Doces - Pedido de Bolo</p>
@@ -196,5 +202,7 @@
     </footer>
 
     <script src="../script.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../live-sync.js" defer></script>
   </body>
 </html>

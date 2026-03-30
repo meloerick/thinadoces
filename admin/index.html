@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Painel Admin | Thina Doces</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="supabase-url" content="" />
+    <meta name="supabase-anon-key" content="" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./admin.css" />
+  </head>
+  <body>
+    <main class="admin-root">
+      <section class="login-card" id="loginView">
+        <h1>Painel Admin</h1>
+        <p class="muted">Acesso privado para controlar disponibilidade dos itens do cardapio.</p>
+
+        <div class="config-box" id="configBox" hidden>
+          <p class="muted">Configure o Supabase uma vez para ativar o login.</p>
+          <p class="muted">Dados em: Supabase Dashboard > Settings > API</p>
+          <form id="supabaseConfigForm" class="grid-form">
+            <label>
+              Supabase URL
+              <input type="url" id="supabaseUrlInput" placeholder="https://SEU-PROJETO.supabase.co" required />
+            </label>
+            <label>
+              Supabase Anon Key
+              <input type="text" id="supabaseAnonKeyInput" placeholder="eyJ..." required />
+            </label>
+            <div class="row-actions">
+              <button type="submit" class="btn secondary">Salvar configuracao</button>
+              <button type="button" class="btn secondary" id="clearSupabaseConfigBtn">Apagar key atual</button>
+            </div>
+          </form>
+        </div>
+
+        <form id="loginForm" class="grid-form">
+          <label>
+            Email
+            <input type="email" id="emailInput" autocomplete="username" value="thinadoces@gmail.com" required />
+          </label>
+          <label>
+            Senha
+            <input type="password" id="passwordInput" autocomplete="current-password" required />
+          </label>
+          <button type="submit" class="btn">Entrar</button>
+        </form>
+        <p class="feedback" id="loginFeedback" aria-live="polite"></p>
+      </section>
+
+      <section class="admin-app" id="appView" hidden>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Thina Doces</p>
+            <h2>Cardapio - ativar ou desativar item</h2>
+          </div>
+          <div class="topbar-actions">
+            <span class="email-badge" id="adminEmailBadge">-</span>
+            <button class="btn secondary" id="refreshCatalogBtn" type="button">Atualizar lista</button>
+            <button class="btn secondary" id="switchSupabaseBtn" type="button">Trocar Supabase</button>
+            <button class="btn secondary" id="logoutBtn" type="button">Sair</button>
+          </div>
+        </header>
+
+        <section class="stats-grid">
+          <article class="stat-card">
+            <span>Itens ativos</span>
+            <strong id="statActiveItems">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Itens desativados</span>
+            <strong id="statInactiveItems">0</strong>
+          </article>
+          <article class="stat-card">
+            <span>Total de itens</span>
+            <strong id="statTotalItems">0</strong>
+          </article>
+        </section>
+
+        <p class="muted helper-text">
+          Esta tela replica o cardapio principal. Clique no botao do item para marcar como acabou ou voltar para pedido.
+        </p>
+        <section class="acai-card">
+          <header class="acai-card-head">
+            <h3>Complementos do Acai</h3>
+            <span>Controle apenas dos complementos</span>
+          </header>
+          <p class="muted">
+            Regra atual: 3 complementos gratis. Se cliente quiser repetir complemento, ele entra nos adicionais extras por R$ 2,00.
+            Aqui voce marca tudo do acai: complementos, descartaveis e adicionais. Os tamanhos de acai continuam disponiveis.
+          </p>
+          <p class="feedback" id="acaiFeedback" aria-live="polite"></p>
+          <div id="acaiComplementsContainer" class="acai-complements-list"></div>
+        </section>
+        <p class="feedback" id="productsFeedback" aria-live="polite"></p>
+
+        <section id="catalogAdminContainer" class="catalog-admin-container"></section>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin.js" defer></script>
+  </body>
+</html>
